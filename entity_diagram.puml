@@ -1,0 +1,23 @@
+@startuml "Entity Diagram"
+     entity "users" as users {
+          * **id** : varchar
+          username : varchar
+          password : varchar
+          email : varchar
+     }
+
+     entity "sessions" as sessions {
+          * **id** : varchar
+          **user_id** : varchar
+     }
+
+     entity "products" as products {
+          * **id** : varchar
+          name : varhchar
+          quantity : int
+          price : dec
+          update_at : timestamp
+     }
+
+     users|o--||sessions
+@enduml
