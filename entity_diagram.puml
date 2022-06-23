@@ -13,7 +13,7 @@
 
      entity "products" as products {
           * **id** : varchar
-          name : varhchar
+          name : varchar
           quantity : int
           price : dec
           update_at : timestamp
