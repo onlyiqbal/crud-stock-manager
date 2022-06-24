@@ -10,7 +10,7 @@ function getDatabaseConfig(): array
                     "password" => ""
                ],
                "prod" => [
-                    "url" => "mysql:localhost=3306;dbname=db_stock_tes",
+                    "url" => "mysql:localhost=3306;dbname=db_stock",
                     "username" => "root",
                     "password" => ""
                ]

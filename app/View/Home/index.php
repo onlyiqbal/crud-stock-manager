@@ -18,8 +18,8 @@
                     </h3>
                     <hr class="w-50">
                     <p class="lead mt-5">Silahkan login jika sudah punya akun atau register jika belum punya akun</p>
-                    <a href="#" class="btn btn-info">Login</a>
-                    <a href="#" class="btn btn-danger">Register</a>
+                    <a href="/users/login" class="btn btn-info">Login</a>
+                    <a href="/users/register" class="btn btn-danger">Register</a>
                </div>
           </div>
      </div>

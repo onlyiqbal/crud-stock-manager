@@ -8,4 +8,17 @@ class View
      {
           require __DIR__ . "/../View/" . $view . ".php";
      }
+
+     public static function renderRegister(string $view, $model): void
+     {
+          require __DIR__ . "/../View/" . $view . ".php";
+     }
+
+     public static function redirect(string $url)
+     {
+          header("Location: $url");
+          if (getenv("mode") != "test") {
+               exit();
+          }
+     }
 }
