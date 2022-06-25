@@ -7,13 +7,18 @@ use PHPUnit\Framework\TestCase;
 
 class HomeControllerTest extends TestCase
 {
+     private HomeController $homeController;
+
+     protected function setUp(): void
+     {
+          $this->homeController = new HomeController();
+     }
+
      public function testGuest()
      {
-          View::render("Home/index", [
-               "title" => "Stock Manager"
-          ]);
+          $this->homeController->index();
 
-          $this->expectOutputRegex("[Selamat datang]");
+          $this->expectOutputRegex("[Selamat Datang]");
           $this->expectOutputRegex("[Login]");
           $this->expectOutputRegex("[Register]");
      }

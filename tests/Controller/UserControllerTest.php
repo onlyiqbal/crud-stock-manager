@@ -43,4 +43,43 @@ class UserControllerTest extends TestCase
 
           $this->expectOutputRegex("[Location: /users/login]");
      }
+
+     public function testPostRegisterValidationError()
+     {
+          $_POST['id'] = "";
+          $_POST['username'] = "";
+          $_POST['password'] = "";
+          $_POST['ulangi_password'] = "";
+          $_POST['email'] = "";
+
+          $this->userController->postRegister();
+
+          $this->expectOutputRegex("[Id, username, password, email tidak boleh kosong]");
+     }
+
+     public function testPostRegisterPasswordNotSame()
+     {
+          $_POST['id'] = "budi";
+          $_POST['username'] = "Budi";
+          $_POST['password'] = "qwerty";
+          $_POST['ulangi_password'] = "asdfgh";
+          $_POST['email'] = "budi@gmail.com";
+
+          $this->userController->postRegister();
+
+          $this->expectOutputRegex("[Password harus sama]");
+     }
+
+     public function testPostRegisterEmailNotValid()
+     {
+          $_POST['id'] = "budi";
+          $_POST['username'] = "Budi";
+          $_POST['password'] = "qwerty";
+          $_POST['ulangi_password'] = "qwerty";
+          $_POST['email'] = "budi@gm";
+
+          $this->userController->postRegister();
+
+          $this->expectOutputRegex("[Format email salah]");
+     }
 }
