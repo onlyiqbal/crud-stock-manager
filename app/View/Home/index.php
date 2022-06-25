@@ -2,7 +2,7 @@
           <div class="row">
                <div class="col-12 py-4 mx-auto text-center">
                     <h3 class="mt-5">
-                         Selamat datang di Aplikasi <strong>Stock Manager</strong>
+                         Selamat Datang di Aplikasi <strong>Stock Manager</strong>
                     </h3>
                     <hr class="w-50">
                     <p class="lead mt-5">Silahkan login jika sudah punya akun atau register jika belum punya akun</p>

@@ -12,7 +12,6 @@ class ViewTest extends TestCase
                "title" => "Aplikasi Stock Manager"
           ]);
 
-          $this->expectOutputRegex("[Aplikasi Stock Manager]");
           $this->expectOutputRegex("[Selamat Datang]");
           $this->expectOutputRegex("[Login]");
           $this->expectOutputRegex("[Register]");
