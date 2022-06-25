@@ -48,4 +48,26 @@ class UserRepository
      {
           $this->connection->exec("DELETE FROM users");
      }
+
+     public function findByUsername(string $username): ?User
+     {
+          $statement = $this->connection->prepare("SELECT id, username, password, email FROM users WHERE username = ?");
+          $statement->execute([$username]);
+
+          try {
+               if ($row = $statement->fetch()) {
+                    $user = new User();
+                    $user->id = $row['id'];
+                    $user->username = $row['username'];
+                    $user->password = $row['password'];
+                    $user->email = $row['email'];
+
+                    return $user;
+               } else {
+                    return null;
+               }
+          } finally {
+               $statement->closeCursor();
+          }
+     }
 }

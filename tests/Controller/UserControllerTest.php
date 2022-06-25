@@ -5,6 +5,7 @@ namespace Iqbal\StockManager\Controller;
 require_once __DIR__ . "/../Helper/helper.php";
 
 use Iqbal\StockManager\Config\Database;
+use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Repository\UserRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -81,5 +82,49 @@ class UserControllerTest extends TestCase
           $this->userController->postRegister();
 
           $this->expectOutputRegex("[Format email salah]");
+     }
+
+     public function testLogin()
+     {
+          $this->userController->login();
+
+          $this->expectOutputRegex("[Account Login]");
+          $this->expectOutputRegex("[Login]");
+          $this->expectOutputRegex("[Username]");
+          $this->expectOutputRegex("[Password]");
+     }
+
+     public function testLoginSuccess()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = password_hash("qwerty", PASSWORD_BCRYPT);
+          $user->email = "budi@gmail.com";
+          $this->userRepository->save($user);
+
+          $_POST['username'] = "Budi";
+          $_POST['password'] = "qwerty";
+          $this->userController->postLogin();
+
+          $this->expectOutputRegex("[Location: /]");
+     }
+
+     public function testLoginValidationError()
+     {
+          $_POST['username'] = "";
+          $_POST['password'] = "";
+          $this->userController->postLogin();
+
+          $this->expectOutputRegex("[Username atau password tidak boleh kosong]");
+     }
+
+     public function testLoginUserNotFound()
+     {
+          $_POST['username'] = "Iqbal";
+          $_POST['password'] = "asdfgh";
+          $this->userController->postLogin();
+
+          $this->expectOutputRegex("[Username atau password salah]");
      }
 }

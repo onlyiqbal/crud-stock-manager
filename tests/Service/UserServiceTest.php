@@ -5,6 +5,7 @@ namespace Iqbal\StockManager\Service;
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
+use Iqbal\StockManager\Model\UserLoginRequest;
 use Iqbal\StockManager\Model\UserRegisterRequest;
 use Iqbal\StockManager\Repository\UserRepository;
 use PHPUnit\Framework\TestCase;
@@ -99,5 +100,50 @@ class UserServiceTest extends TestCase
           $request->email = "budi@gmai";
 
           $this->userService->register($request);
+     }
+
+     public function testLoginSuccess()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = password_hash("qwerty", PASSWORD_BCRYPT);
+          $user->email = "budi@gmail.com";
+
+          $this->expectException(ValidationException::class);
+
+          $request = new UserLoginRequest();
+          $request->username = "Budi";
+          $request->password = "qwerty";
+          $response = $this->userService->login($request);
+
+          $this->assertEquals($user->username, $response->user->username);
+          $this->assertTrue(password_verify($response->user->password, $user->password));
+     }
+
+     public function testLoginValidationError()
+     {
+          $this->expectException(ValidationException::class);
+
+          $request = new UserLoginRequest();
+          $request->username = "";
+          $request->password = "";
+          $this->userService->login($request);
+     }
+
+     public function testLoginNotFound()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = password_hash("qwerty", PASSWORD_BCRYPT);
+          $user->email = "budi@gmail.com";
+
+          $this->expectException(ValidationException::class);
+
+          $request = new UserLoginRequest();
+          $request->username = "iqbal";
+          $request->password = "asdfgh";
+          $this->userService->login($request);
      }
 }

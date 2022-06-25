@@ -5,6 +5,8 @@ namespace Iqbal\StockManager\Service;
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
+use Iqbal\StockManager\Model\UserLoginRequest;
+use Iqbal\StockManager\Model\UserLoginResponse;
 use Iqbal\StockManager\Model\UserRegisterRequest;
 use Iqbal\StockManager\Model\UserRegisterResponse;
 use Iqbal\StockManager\Repository\UserRepository;
@@ -20,7 +22,7 @@ class UserService
 
      public function register(UserRegisterRequest $request): UserRegisterResponse
      {
-          $this->validateUserRegsiterRequest($request);
+          $this->validateUserRegisterRequest($request);
 
           $user = $this->userRepository->findById($request->id);
           if ($user != null) {
@@ -62,10 +64,35 @@ class UserService
           }
      }
 
-     private function validateUserRegsiterRequest(UserRegisterRequest $request)
+     private function validateUserRegisterRequest(UserRegisterRequest $request)
      {
           if (($request->id == null || "") && ($request->username == null || "") && ($request->password == null || "") && ($request->ulangiPassword == null || "") && ($request->email == null || "")) {
                throw new ValidationException("Id, username, password, email tidak boleh kosong");
+          }
+     }
+
+     public function login(UserLoginRequest $request): UserLoginResponse
+     {
+          $this->validateUserLoginRequest($request);
+          $user = $this->userRepository->findByUsername($request->username);
+          if ($user == null) {
+               throw new ValidationException("Username atau password salah");
+          }
+
+          if (password_verify($request->password, $user->password)) {
+               $response = new UserLoginResponse();
+               $response->user = $user;
+
+               return $response;
+          } else {
+               throw new ValidationException("Username atau password salah");
+          }
+     }
+
+     private function validateUserLoginRequest(UserLoginRequest $request)
+     {
+          if (($request->username == null || "") && ($request->password == null || "")) {
+               throw new ValidationException("Username atau password tidak boleh kosong");
           }
      }
 }

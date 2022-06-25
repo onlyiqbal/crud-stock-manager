@@ -5,6 +5,7 @@ namespace Iqbal\StockManager\Controller;
 use Iqbal\StockManager\App\View;
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Exception\ValidationException;
+use Iqbal\StockManager\Model\UserLoginRequest;
 use Iqbal\StockManager\Model\UserRegisterRequest;
 use Iqbal\StockManager\Repository\UserRepository;
 use Iqbal\StockManager\Service\UserService;
@@ -42,6 +43,30 @@ class UserController
           } catch (ValidationException $exception) {
                View::render("User/register", [
                     "title" => "Register user",
+                    "error" => $exception->getMessage()
+               ]);
+          }
+     }
+
+     public function login()
+     {
+          View::render("User/login", [
+               "title" => "User login"
+          ]);
+     }
+
+     public function postLogin()
+     {
+          $request = new UserLoginRequest();
+          $request->username = $_POST['username'];
+          $request->password = $_POST['password'];
+
+          try {
+               $this->userService->login($request);
+               View::redirect("/");
+          } catch (ValidationException $exception) {
+               View::render("User/login", [
+                    "title" => "User login",
                     "error" => $exception->getMessage()
                ]);
           }
