@@ -39,7 +39,7 @@ class UserServiceTest extends TestCase
           $this->assertTrue(password_verify($request->ulangiPassword, $response->user->password));
      }
 
-     public function testRegisterFaild()
+     public function testRegisterFailed()
      {
           $this->expectException(ValidationException::class);
 
@@ -88,7 +88,7 @@ class UserServiceTest extends TestCase
           $this->userService->register($request);
      }
 
-     public function testRegisterEmailFaild()
+     public function testRegisterEmailFailed()
      {
           $this->expectException(ValidationException::class);
           $request = new UserRegisterRequest();

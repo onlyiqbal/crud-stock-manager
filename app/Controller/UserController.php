@@ -22,7 +22,7 @@ class UserController
 
      public function register()
      {
-          View::renderRegister("User/register", [
+          View::render("User/register", [
                "title" => "Register user"
           ]);
      }
@@ -40,7 +40,7 @@ class UserController
                $this->userService->register($request);
                View::redirect("/users/login");
           } catch (ValidationException $exception) {
-               View::renderRegister("User/register", [
+               View::render("User/register", [
                     "title" => "Register user",
                     "error" => $exception->getMessage()
                ]);

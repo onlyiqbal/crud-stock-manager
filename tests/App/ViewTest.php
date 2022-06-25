@@ -8,7 +8,7 @@ class ViewTest extends TestCase
 {
      public function testRender()
      {
-          View::renderIndex("Home/index", [
+          View::render("Home/index", [
                "title" => "Aplikasi Stock Manager"
           ]);
 

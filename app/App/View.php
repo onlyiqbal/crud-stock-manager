@@ -4,14 +4,11 @@ namespace Iqbal\StockManager\App;
 
 class View
 {
-     public static function renderIndex(string $view, $model): void
+     public static function render(string $view, $model): void
      {
-          require __DIR__ . "/../View/" . $view . ".php";
-     }
-
-     public static function renderRegister(string $view, $model): void
-     {
-          require __DIR__ . "/../View/" . $view . ".php";
+          require_once __DIR__ . "/../View/header.php";
+          require_once __DIR__ . "/../View/" . $view . ".php";
+          require_once __DIR__ . "/../View/footer.php";
      }
 
      public static function redirect(string $url)

@@ -8,7 +8,7 @@ class HomeController
 {
      public function index()
      {
-          View::renderIndex("Home/index", [
+          View::render("Home/index", [
                'title' => 'Stock Manager'
           ]);
      }
