@@ -2,7 +2,6 @@
 
 namespace Iqbal\StockManager\Controller;
 
-use Iqbal\StockManager\App\View;
 use PHPUnit\Framework\TestCase;
 
 class HomeControllerTest extends TestCase
@@ -14,7 +13,7 @@ class HomeControllerTest extends TestCase
           $this->homeController = new HomeController();
      }
 
-     public function testGuest()
+     public function testIndex()
      {
           $this->homeController->index();
 

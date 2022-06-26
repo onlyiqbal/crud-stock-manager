@@ -9,9 +9,10 @@ class ViewTest extends TestCase
      public function testRender()
      {
           View::render("Home/index", [
-               "title" => "Aplikasi Stock Manager"
+               "title" => "Stock Manager"
           ]);
 
+          $this->expectOutputRegex("[Stock Manager]");
           $this->expectOutputRegex("[Selamat Datang]");
           $this->expectOutputRegex("[Login]");
           $this->expectOutputRegex("[Register]");

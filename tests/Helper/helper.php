@@ -6,3 +6,10 @@ namespace Iqbal\StockManager\App {
           echo "$value";
      }
 }
+
+namespace Iqbal\StockManager\Service {
+     function setcookie(string $name, string $value)
+     {
+          echo "$name: $value";
+     }
+}

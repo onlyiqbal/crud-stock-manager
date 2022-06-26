@@ -24,7 +24,7 @@ class UserController
      public function register()
      {
           View::render("User/register", [
-               "title" => "Register user"
+               "title" => "Register new User"
           ]);
      }
 
