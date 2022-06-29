@@ -6,6 +6,7 @@ require_once __DIR__ . "/../Helper/helper.php";
 
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Domain\User;
+use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -13,10 +14,13 @@ class UserControllerTest extends TestCase
 {
      private UserController $userController;
      private UserRepository $userRepository;
+     private SessionRepository $sessionRepository;
 
      protected function setUp(): void
      {
           $this->userRepository = new UserRepository(Database::getConnection());
+          $this->sessionRepository = new SessionRepository(Database::getConnection());
+          $this->sessionRepository->deleteAll();
           $this->userRepository->deleteAll();
           $this->userController = new UserController();
 

@@ -7,6 +7,7 @@ use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\UserLoginRequest;
 use Iqbal\StockManager\Model\UserRegisterRequest;
+use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -14,13 +15,16 @@ class UserServiceTest extends TestCase
 {
      private UserService $userService;
      private UserRepository $userRepository;
+     private SessionRepository $sessionsRepository;
 
      protected function setUp(): void
      {
+          $this->sessionsRepository = new SessionRepository(Database::getConnection());
+          $this->sessionsRepository->deleteAll();
           $this->userRepository = new UserRepository(Database::getConnection());
-          $this->userService = new UserService($this->userRepository);
-
           $this->userRepository->deleteAll();
+
+          $this->userService = new UserService($this->userRepository);
      }
 
      public function testRegisterSuccess()

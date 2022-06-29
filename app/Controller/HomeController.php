@@ -7,17 +7,20 @@ use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Repository\ProductRepository;
 use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
+use Iqbal\StockManager\Service\ProductService;
 use Iqbal\StockManager\Service\SessionService;
 
 class HomeController
 {
      private SessionService $sessionService;
-     private ProductRepository $productRepository;
+     private ProductService $productService;
 
      public function __construct()
      {
           $connection = Database::getConnection();
-          $this->productRepository = new ProductRepository($connection);
+          $productRepository = new ProductRepository($connection);
+          $this->productService = new ProductService($productRepository);
+
           $userRepository = new UserRepository($connection);
           $sessionRepository = new SessionRepository($connection);
           $this->sessionService = new SessionService($sessionRepository, $userRepository);
@@ -31,9 +34,10 @@ class HomeController
                     'title' => 'Stock Manager'
                ]);
           } else {
-               View::render("Barang/show", [
+               View::renderProduct("Barang/show", [
                     "title" => "Dashboard",
-                    "products" => $this->productRepository->showAll()
+                    "name" => $user->id,
+                    "products" => $this->productService->showAllProducts(),
                ]);
           }
      }
