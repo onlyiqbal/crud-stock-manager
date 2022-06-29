@@ -7,18 +7,24 @@ use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\UserLoginRequest;
 use Iqbal\StockManager\Model\UserRegisterRequest;
+use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
+use Iqbal\StockManager\Service\SessionService;
 use Iqbal\StockManager\Service\UserService;
 
 class UserController
 {
      private UserService $userService;
-     private UserRepository $userRepository;
+     private SessionService $sessionService;
 
      public function __construct()
      {
-          $this->userRepository = new UserRepository(Database::getConnection());
-          $this->userService = new UserService($this->userRepository);
+          $connection = Database::getConnection();
+          $userRepository = new UserRepository($connection);
+          $this->userService = new UserService($userRepository);
+
+          $sessionRepository = new SessionRepository($connection);
+          $this->sessionService = new SessionService($sessionRepository, $userRepository);
      }
 
      public function register()
@@ -62,8 +68,9 @@ class UserController
           $request->password = $_POST['password'];
 
           try {
-               $this->userService->login($request);
-               View::redirect("/");
+               $response = $this->userService->login($request);
+               $this->sessionService->create($response->user->id);
+               View::redirect("/products");
           } catch (ValidationException $exception) {
                View::render("User/login", [
                     "title" => "User login",

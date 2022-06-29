@@ -2,8 +2,8 @@
 
 namespace Iqbal\StockManager\Service;
 
-use Exception;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Iqbal\StockManager\Domain\Session;
 use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
@@ -14,7 +14,7 @@ class SessionService
 {
      private SessionRepository $sessionRepository;
      private UserRepository $userRepository;
-     public static string $SECRET_KEY = "!@#ghsjuey1234jfnvhgt%^&*(kgjghdg";
+     public static string $SECRET_KEY = "jahfdb1264763bfjcbchdb4637ncbcj";
      public static string $COOKIE_NAME = "X-IQBAL-SESSION";
 
      public function __construct(SessionRepository $sessionRepository, UserRepository $userRepository)
@@ -49,21 +49,21 @@ class SessionService
           setcookie(self::$COOKIE_NAME, "", 1, "/");
      }
 
-     public function current()
+     public function current(): ?User
      {
-          if ($_COOKIE[self::$COOKIE_NAME]) {
+          if (isset($_COOKIE[self::$COOKIE_NAME])) {
                $jwt = $_COOKIE[self::$COOKIE_NAME];
                try {
-                    $payload = JWT::decode($jwt, self::$SECRET_KEY, ['HS256']);
+                    $payload = JWT::decode($jwt, new Key(self::$SECRET_KEY, "HS256"));
                     $session = new Session();
                     $session->id = $payload->session_id;
                     $session->userId = $payload->username;
-                    return $session;
+                    return $this->userRepository->findById($session->userId);
                } catch (ValidationException $exception) {
                     throw new ValidationException("User tidak login");
                }
           } else {
-               throw new ValidationException("User tidak login");
+               return null;
           }
      }
 }

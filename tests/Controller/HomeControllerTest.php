@@ -13,7 +13,16 @@ class HomeControllerTest extends TestCase
           $this->homeController = new HomeController();
      }
 
-     public function testIndex()
+     public function testGuest()
+     {
+          $this->homeController->index();
+
+          $this->expectOutputRegex("[Selamat Datang]");
+          $this->expectOutputRegex("[Login]");
+          $this->expectOutputRegex("[Register]");
+     }
+
+     public function testUserLogin()
      {
           $this->homeController->index();
 

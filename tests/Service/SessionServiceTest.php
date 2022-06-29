@@ -49,7 +49,7 @@ class SessionServiceTest extends TestCase
 
           $result = $this->sessionRepository->findById($session->id);
 
-          $this->assertEquals("budi", $result->userId);
+          $this->assertEquals($session->userId, $result->userId);
      }
 
      public function testDestroy()
@@ -76,11 +76,24 @@ class SessionServiceTest extends TestCase
           $this->assertNull($result);
      }
 
-     // public function testCurrent()
-     // {
-     //      $session = $this->sessionService->create("budi");
+     public function testCurrent()
+     {
+          $session = new Session();
+          $session->id = uniqid();
+          $session->userId = "budi";
+          $this->sessionRepository->save($session);
 
-     //      $resultSession = $this->sessionService->current();
-     //      $this->assertEquals($resultSession->id, $session->id);
-     // }
+          $payload = [
+               "session_id" => $session->id,
+               "username" => $session->userId,
+               "role" => "user"
+          ];
+          $jwt = JWT::encode($payload, SessionService::$SECRET_KEY, "HS256");
+
+          $_COOKIE[$this->sessionService::$COOKIE_NAME] = $jwt;
+
+          $user = $this->sessionService->current();
+
+          $this->assertEquals($session->userId, $user->id);
+     }
 }
