@@ -7,16 +7,20 @@ use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Controller\HomeController;
 use Iqbal\StockManager\Controller\ProductController;
 use Iqbal\StockManager\Controller\UserController;
+use Iqbal\StockManager\Middleware\MustLoginMiddleware;
+use Iqbal\StockManager\Middleware\MustLoginMiddlewareTest;
+use Iqbal\StockManager\Middleware\MustNotLoginMiddleware;
 
 Database::getConnection("prod");
 
 //Home Controller
 Router::add("GET", "/", HomeController::class, "index", []);
+Router::add("GET", "/products", HomeController::class, "index", [MustLoginMiddleware::class]);
 //User Controller
-Router::add("GET", "/users/register", UserController::class, "register", []);
-Router::add("POST", "/users/register", UserController::class, "postRegister", []);
-Router::add("GET", "/users/login", UserController::class, "login", []);
-Router::add("POST", "/users/login", UserController::class, "postLogin", []);
+Router::add("GET", "/users/register", UserController::class, "register", [MustNotLoginMiddleware::class]);
+Router::add("POST", "/users/register", UserController::class, "postRegister", [MustNotLoginMiddleware::class]);
+Router::add("GET", "/users/login", UserController::class, "login", [MustNotLoginMiddleware::class]);
+Router::add("POST", "/users/login", UserController::class, "postLogin", [MustNotLoginMiddleware::class]);
+Router::add("GET", "/users/logout", UserController::class, "logout", [MustLoginMiddleware::class]);
 //Product Controller
-Router::add("GET", "/products", HomeController::class, "index", []);
 Router::run();

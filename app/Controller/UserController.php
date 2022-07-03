@@ -16,6 +16,7 @@ class UserController
 {
      private UserService $userService;
      private SessionService $sessionService;
+     private SessionRepository $sessionRepository;
 
      public function __construct()
      {
@@ -23,14 +24,14 @@ class UserController
           $userRepository = new UserRepository($connection);
           $this->userService = new UserService($userRepository);
 
-          $sessionRepository = new SessionRepository($connection);
-          $this->sessionService = new SessionService($sessionRepository, $userRepository);
+          $this->sessionRepository = new SessionRepository($connection);
+          $this->sessionService = new SessionService($this->sessionRepository, $userRepository);
      }
 
      public function register()
      {
           View::render("User/register", [
-               "title" => "Register new User"
+               "title" => "Register user baru"
           ]);
      }
 
@@ -77,5 +78,12 @@ class UserController
                     "error" => $exception->getMessage()
                ]);
           }
+     }
+
+     public function logout()
+     {
+          $session = $this->sessionService->current();
+          $this->sessionService->destroy($session->id);
+          View::redirect("/");
      }
 }

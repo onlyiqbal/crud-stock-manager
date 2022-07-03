@@ -28,15 +28,15 @@ class HomeController
 
      public function index()
      {
-          $user = $this->sessionService->current();
-          if ($user == null) {
+          $session = $this->sessionService->current();
+          if ($session == null) {
                View::render("Home/index", [
                     'title' => 'Stock Manager'
                ]);
           } else {
                View::renderProduct("Barang/show", [
                     "title" => "Dashboard",
-                    "name" => $user->id,
+                    "name" => $session->userId,
                     "products" => $this->productService->showAllProducts(),
                ]);
           }

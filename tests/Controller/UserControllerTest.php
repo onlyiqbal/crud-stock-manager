@@ -4,10 +4,13 @@ namespace Iqbal\StockManager\Controller;
 
 require_once __DIR__ . "/../Helper/helper.php";
 
+use Firebase\JWT\JWT;
 use Iqbal\StockManager\Config\Database;
+use Iqbal\StockManager\Domain\Session;
 use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
+use Iqbal\StockManager\Service\SessionService;
 use PHPUnit\Framework\TestCase;
 
 class UserControllerTest extends TestCase
@@ -130,5 +133,34 @@ class UserControllerTest extends TestCase
           $this->userController->postLogin();
 
           $this->expectOutputRegex("[Username atau password salah]");
+     }
+
+     public function testLogout()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = "qwerty";
+          $user->email = "budi@gmail.com";
+          $this->userRepository->save($user);
+
+          $session = new Session();
+          $session->id = uniqid();
+          $session->userId = "Budi";
+          $this->sessionRepository->save($session);
+
+          $paylod = [
+               "session_id" => $session->id,
+               "username" => $session->userId,
+               "role" => "user",
+          ];
+
+          $jwt = JWT::encode($paylod, SessionService::$SECRET_KEY, "HS256");
+          $_COOKIE[SessionService::$COOKIE_NAME] = $jwt;
+
+          $this->userController->logout();
+
+          $this->expectOutputRegex("[Location: /]");
+          $this->expectOutputRegex("[X-IQBAL-SESSION: ]");
      }
 }

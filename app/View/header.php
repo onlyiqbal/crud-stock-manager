@@ -4,7 +4,7 @@
 <head>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
-     <title>ILKOOM Inventory</title>
+     <title><?= $model['title'] ?></title>
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
      <style>
           /* NAVBAR */
@@ -53,7 +53,7 @@
                                    My Profile</a>
                          </li>
                          <li class="nav-item">
-                              <a class="nav-link p-3" href="logout.php">Logout</a>
+                              <a class="nav-link p-3" href="/users/logout">Logout</a>
                          </li>
                     </ul>
                </div>

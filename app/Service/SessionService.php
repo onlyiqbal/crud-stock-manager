@@ -49,7 +49,7 @@ class SessionService
           setcookie(self::$COOKIE_NAME, "", 1, "/");
      }
 
-     public function current(): ?User
+     public function current(): ?Session
      {
           if (isset($_COOKIE[self::$COOKIE_NAME])) {
                $jwt = $_COOKIE[self::$COOKIE_NAME];
@@ -58,7 +58,7 @@ class SessionService
                     $session = new Session();
                     $session->id = $payload->session_id;
                     $session->userId = $payload->username;
-                    return $this->userRepository->findById($session->userId);
+                    return $this->sessionRepository->findById($session->id);
                } catch (ValidationException $exception) {
                     throw new ValidationException("User tidak login");
                }

@@ -92,7 +92,8 @@ class SessionServiceTest extends TestCase
 
           $_COOKIE[$this->sessionService::$COOKIE_NAME] = $jwt;
 
-          $user = $this->sessionService->current();
+          $user  = $this->userRepository->findById($session->userId);
+          $session = $this->sessionService->current();
 
           $this->assertEquals($session->userId, $user->id);
      }
