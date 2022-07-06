@@ -4,6 +4,7 @@ namespace Iqbal\StockManager\Repository;
 
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Domain\Product;
+use Iqbal\StockManager\Model\ProductAddRequest;
 use PHPUnit\Framework\TestCase;
 
 class ProductRepositoryTest extends TestCase
@@ -17,17 +18,19 @@ class ProductRepositoryTest extends TestCase
      }
      public function testSaveSuccess()
      {
+          $request = new ProductAddRequest();
+          $request->name = "Hp";
+          $request->quantity = 5;
+          $request->price = 5000000;
+
           $product = new Product();
-          $product->id = "1";
-          $product->name = "HP";
-          $product->quantity = "5";
-          $product->price = "1500000000";
-          $product->update_at = "2022-06-27";
-          $this->productRepository->save($product);
+          $product->name = $request->name;
+          $product->quantity = $request->quantity;
+          $product->price = $request->price;
 
-          $result = $this->productRepository->findById($product->id);
+          $result = $this->productRepository->save($product);
 
-          $this->assertEquals($result->id, $product->id);
+          $this->assertNotNull($result);
      }
 
      public function testShowAll()

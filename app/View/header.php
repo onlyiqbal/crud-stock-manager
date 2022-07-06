@@ -6,26 +6,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
      <title><?= $model['title'] ?></title>
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-     <style>
-          /* NAVBAR */
-          #main-navbar .nav-link {
-               border-bottom: 5px solid #343a40;
-               color: #eed3d3;
-          }
-
-          #main-navbar .nav-link:hover,
-          #main-navbar a.active {
-               border-bottom: 5px solid #117a8b;
-               color: white;
-          }
-
-          /* TABLE - agar teks berada di tengah secara vertikal */
-          table,
-          th,
-          td {
-               vertical-align: middle !important;
-          }
-     </style>
+     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -43,14 +24,10 @@
                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                          <li class="nav-item">
-                              <a class="nav-link p-3 <?php echo basename($_SERVER['PHP_SELF'])
-                                                            == "tampil_barang.php" ? "active" : ""; ?>" href="tampil_barang.php">
-                                   Tabel Barang</a>
+                              <a class="nav-link p-3 <?php echo basename($_SERVER['PHP_SELF']) == "/products" ? "active" : ""; ?>" href="/products">Tabel Barang</a>
                          </li>
                          <li class="nav-item">
-                              <a class="nav-link p-3 <?php echo basename($_SERVER['PHP_SELF'])
-                                                            == "profile.php" ? "active" : ""; ?>" href="profile.php">
-                                   My Profile</a>
+                              <a class="nav-link p-3 <?php echo basename($_SERVER['PHP_SELF']) == "profile.php" ? "active" : ""; ?>" href="/users/profile">My Profile</a>
                          </li>
                          <li class="nav-item">
                               <a class="nav-link p-3" href="/users/logout">Logout</a>

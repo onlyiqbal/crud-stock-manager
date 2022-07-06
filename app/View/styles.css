@@ -1,0 +1,16 @@
+#main-navbar .nav-link {
+     border-bottom: 5px solid #343a40;
+     color: #eed3d3;
+}
+
+#main-navbar .nav-link:hover,
+#main-navbar a.active {
+     border-bottom: 5px solid #117a8b;
+     color: white;
+}
+
+table,
+th,
+td {
+     vertical-align: middle !important;
+}

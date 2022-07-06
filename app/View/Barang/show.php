@@ -31,8 +31,8 @@
                               $tanggal = new DateTime($product['update_at']);
                               echo "<td>" . $tanggal->format("d-m-Y H:i") . "</td>";
                               echo "<td>";
-                              echo "<a href='#'>Edit</a>";
-                              echo "<a href='#'>Hapus</a>";
+                              echo "<a href='#' class='btn btn-info'>Edit</a>";
+                              echo "<a href='#' class='btn btn-danger'>Hapus</a>";
                               echo "</td>";
                               echo "</tr>";
                          }

@@ -16,8 +16,8 @@ class ProductRepository
 
      public function save(Product $product): Product
      {
-          $statement = $this->connection->prepare("INSERT INTO products(id, name, quantity, price, update_at) VALUES (?,?,?,?,?)");
-          $statement->execute([$product->id, $product->name, $product->quantity, $product->price, $product->update_at]);
+          $statement = $this->connection->prepare("INSERT INTO products(name, quantity, price) VALUES (?,?,?)");
+          $statement->execute([$product->name, $product->quantity, $product->price]);
 
           return $product;
      }
