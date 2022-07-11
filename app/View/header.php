@@ -24,10 +24,10 @@
                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                          <li class="nav-item">
-                              <a class="nav-link p-3 <?php echo basename($_SERVER['PHP_SELF']) == "/products" ? "active" : ""; ?>" href="/products">Tabel Barang</a>
+                              <a class="nav-link p-3" href="/products">Tabel Barang</a>
                          </li>
                          <li class="nav-item">
-                              <a class="nav-link p-3 <?php echo basename($_SERVER['PHP_SELF']) == "profile.php" ? "active" : ""; ?>" href="/users/profile">My Profile</a>
+                              <a class="nav-link p-3" href="/users/profile">My Profile</a>
                          </li>
                          <li class="nav-item">
                               <a class="nav-link p-3" href="/users/logout">Logout</a>

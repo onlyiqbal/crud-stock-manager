@@ -4,7 +4,7 @@ namespace Iqbal\StockManager\Domain;
 
 class Product
 {
-     public ?string $id;
+     public ?int $id;
      public string $name;
      public int $quantity;
      public string $price;

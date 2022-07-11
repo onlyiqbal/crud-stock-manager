@@ -56,4 +56,15 @@ class ProductController
                ]);
           }
      }
+
+     public function edit(string $id)
+     {
+          $product = $this->productRepository->findById($id);
+          $session = $this->sessionService->current();
+          View::renderProduct("Barang/edit", [
+               "title" => "Edit Product",
+               "name" => $session->userId,
+               "product" => $product,
+          ]);
+     }
 }
