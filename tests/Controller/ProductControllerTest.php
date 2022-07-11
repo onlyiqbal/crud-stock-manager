@@ -129,4 +129,19 @@ class ProductControllerTest extends TestCase
 
           $this->expectOutputRegex("[Edit Barang]");
      }
+
+     public function testDeleteSuccess()
+     {
+          $product = new Product();
+          $product->name = "HP";
+          $product->quantity = 5;
+          $product->price = 1500000;
+          $this->productRepository->save($product);
+
+          $product = $this->productRepository->showAll();
+          $result = $product->fetch();
+          $this->productController->delete($result['id']);
+
+          $this->expectOutputRegex("[Location: /products]");
+     }
 }

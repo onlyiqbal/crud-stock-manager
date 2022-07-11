@@ -39,4 +39,21 @@ class ProductRepositoryTest extends TestCase
 
           $this->assertNotNull($result);
      }
+
+     public function testDeleteByIdSuccess()
+     {
+          $product = new Product();
+          $product->name = "Mesin Cuci";
+          $product->quantity = 10;
+          $product->price = 5000000;
+          $this->productRepository->save($product);
+
+          $product = $this->productRepository->showAll();
+          $result = $product->fetch();
+          $this->productRepository->deleteById($result['id']);
+
+          $result_product = $this->productRepository->findById($result['id']);
+
+          $this->assertNull($result_product);
+     }
 }

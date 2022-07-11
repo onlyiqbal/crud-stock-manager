@@ -60,4 +60,21 @@ class ProductServiceTest extends TestCase
 
           $this->productService->add($request);
      }
+
+     public function testDeleteByIdSuccess()
+     {
+          $product = new Product();
+          $product->name = "Gosokan";
+          $product->quantity = 20;
+          $product->price = 500000;
+          $this->productRepository->save($product);
+
+          $product = $this->productRepository->showAll();
+          $result = $product->fetch();
+
+          $this->productService->deleteProduct($result['id']);
+          $result_product = $this->productRepository->findById($result['id']);
+
+          $this->assertNull($result_product);
+     }
 }

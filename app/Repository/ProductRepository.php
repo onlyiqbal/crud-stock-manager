@@ -4,6 +4,7 @@ namespace Iqbal\StockManager\Repository;
 
 use Iqbal\StockManager\Domain\Product;
 use PDO;
+use PDOStatement;
 
 class ProductRepository
 {
@@ -22,7 +23,7 @@ class ProductRepository
           return $product;
      }
 
-     public function showAll()
+     public function showAll(): PDOStatement
      {
           $statement = $this->connection->query("SELECT id, name, quantity, price, update_at FROM products");
           return $statement;
@@ -50,8 +51,14 @@ class ProductRepository
           }
      }
 
-     public function deleteAll()
+     public function deleteAll(): void
      {
           $this->connection->exec("DELETE FROM products");
+     }
+
+     public function deleteById(string $id): void
+     {
+          $statement = $this->connection->prepare("DELETE FROM products WHERE id = ?");
+          $statement->execute([$id]);
      }
 }

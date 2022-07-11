@@ -26,4 +26,5 @@ Router::add("GET", "/users/logout", UserController::class, "logout", [MustLoginM
 Router::add("GET", "/products/add", ProductController::class, "add", [MustLoginMiddleware::class]);
 Router::add("POST", "/products/add", ProductController::class, "postAdd", [MustLoginMiddleware::class]);
 Router::add("GET", "/products/edit/([0-9a-zA-Z]*)", ProductController::class, "edit", [MustLoginMiddleware::class]);
+Router::add("GET", "/products/delete/([0-9a-zA-Z]*)", ProductController::class, "delete", [MustLoginMiddleware::class]);
 Router::run();

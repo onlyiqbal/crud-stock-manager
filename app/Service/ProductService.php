@@ -55,4 +55,9 @@ class ProductService
                throw new ValidationException("Form tidak boleh kosong");
           }
      }
+
+     public function deleteProduct(string $id)
+     {
+          $this->productRepository->deleteById($id);
+     }
 }

@@ -67,4 +67,10 @@ class ProductController
                "product" => $product,
           ]);
      }
+
+     public function delete(string $id)
+     {
+          $this->productService->deleteProduct($id);
+          View::redirect("/products");
+     }
 }
