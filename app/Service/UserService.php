@@ -7,17 +7,23 @@ use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\UserLoginRequest;
 use Iqbal\StockManager\Model\UserLoginResponse;
+use Iqbal\StockManager\Model\UserProfileUpdateRequest;
+use Iqbal\StockManager\Model\UserProfileUpdateResponse;
 use Iqbal\StockManager\Model\UserRegisterRequest;
 use Iqbal\StockManager\Model\UserRegisterResponse;
+use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
 
 class UserService
 {
      private UserRepository $userRepository;
+     private SessionService $sessionService;
 
      public function __construct(UserRepository $userRepository)
      {
           $this->userRepository = $userRepository;
+          $sessionRepository = new SessionRepository(Database::getConnection());
+          $this->sessionService = new SessionService($sessionRepository, $this->userRepository);
      }
 
      public function register(UserRegisterRequest $request): UserRegisterResponse
@@ -93,6 +99,44 @@ class UserService
      {
           if (($request->username == null || "") && ($request->password == null || "")) {
                throw new ValidationException("Username atau password tidak boleh kosong");
+          }
+     }
+
+     public function updatePassword(UserProfileUpdateRequest $request)
+     {
+          $this->validateUserUpdateRequest($request);
+
+          try {
+               Database::beginTransaction();
+               $session = $this->sessionService->current();
+               $user = $this->userRepository->findById($session->userId);
+
+               if ($request->old_password != password_verify($request->old_password, $user->password)) {
+                    throw new ValidationException("Password lama salah");
+               }
+
+               if ($request->new_password != $request->repeate_new_password) {
+                    throw new ValidationException("Password baru salah");
+               }
+
+               $user->password = password_hash($request->repeate_new_password, PASSWORD_BCRYPT);
+               $this->userRepository->updatePassword($user);
+
+               Database::commitTransaction();
+
+               $response = new UserProfileUpdateResponse();
+               $response->user = $user;
+               return $response;
+          } catch (ValidationException $exception) {
+               Database::rollBackTrasaction();
+               throw $exception;
+          }
+     }
+
+     private function validateUserUpdateRequest(UserProfileUpdateRequest $request)
+     {
+          if (($request->old_password == "" || null) || ($request->new_password == "" || null) || ($request->repeate_new_password == "" || null)) {
+               throw new ValidationException("Form tidak boleh kosong");
           }
      }
 }

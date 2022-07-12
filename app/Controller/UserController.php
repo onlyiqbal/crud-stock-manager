@@ -6,6 +6,7 @@ use Iqbal\StockManager\App\View;
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\UserLoginRequest;
+use Iqbal\StockManager\Model\UserProfileUpdateRequest;
 use Iqbal\StockManager\Model\UserRegisterRequest;
 use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
@@ -14,6 +15,7 @@ use Iqbal\StockManager\Service\UserService;
 
 class UserController
 {
+     private UserRepository $userRepository;
      private UserService $userService;
      private SessionService $sessionService;
      private SessionRepository $sessionRepository;
@@ -21,11 +23,11 @@ class UserController
      public function __construct()
      {
           $connection = Database::getConnection();
-          $userRepository = new UserRepository($connection);
-          $this->userService = new UserService($userRepository);
+          $this->userRepository = new UserRepository($connection);
+          $this->userService = new UserService($this->userRepository);
 
           $this->sessionRepository = new SessionRepository($connection);
-          $this->sessionService = new SessionService($this->sessionRepository, $userRepository);
+          $this->sessionService = new SessionService($this->sessionRepository, $this->userRepository);
      }
 
      public function register()
@@ -85,5 +87,41 @@ class UserController
           $session = $this->sessionService->current();
           $this->sessionService->destroy($session->id);
           View::redirect("/");
+     }
+
+     public function profile()
+     {
+          $session = $this->sessionService->current();
+          $user = $this->userRepository->findById($session->userId);
+          View::render("User/profile", [
+               "title" => "User Profile",
+               "name" => $session->userId,
+               "user" => $user
+          ]);
+     }
+
+     public function update()
+     {
+          $request = new UserProfileUpdateRequest();
+          $request->old_password = $_POST['old'];
+          $request->new_password = $_POST['new'];
+          $request->repeate_new_password = $_POST['repeat_new'];
+
+          $session = $this->sessionService->current();
+          $user = $this->userRepository->findById($session->userId);
+
+          try {
+               $this->userService->updatePassword($request);
+               View::render("User/update", [
+                    "title" => "User Update",
+                    "name" => $session->userId
+               ]);
+          } catch (ValidationException $exception) {
+               View::render("User/profile", [
+                    "title" => "User Profile",
+                    "name" => $session->userId,
+                    "user" => $user
+               ]);
+          }
      }
 }

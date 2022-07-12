@@ -2,10 +2,13 @@
 
 namespace Iqbal\StockManager\Service;
 
+use Firebase\JWT\JWT;
 use Iqbal\StockManager\Config\Database;
+use Iqbal\StockManager\Domain\Session;
 use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\UserLoginRequest;
+use Iqbal\StockManager\Model\UserProfileUpdateRequest;
 use Iqbal\StockManager\Model\UserRegisterRequest;
 use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
@@ -149,5 +152,38 @@ class UserServiceTest extends TestCase
           $request->username = "iqbal";
           $request->password = "asdfgh";
           $this->userService->login($request);
+     }
+
+     public function testUpdatePasswordSuccess()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = password_hash("qwerty", PASSWORD_BCRYPT);
+          $user->email = "budi@gmail.com";
+          $this->userRepository->save($user);
+
+          $session = new Session();
+          $session->id = uniqid();
+          $session->userId = "budi";
+          $this->sessionsRepository->save($session);
+          $paylod = [
+               "session_id" => $session->id,
+               "username" => $session->userId,
+               "role" => "user"
+          ];
+          $jwt = JWT::encode($paylod, SessionService::$SECRET_KEY, "HS256");
+          $_COOKIE[SessionService::$COOKIE_NAME] = $jwt;
+
+          $request = new UserProfileUpdateRequest();
+          $request->old_password = "qwerty";
+          $request->new_password = "asdfgh";
+          $request->repeate_new_password = "asdfgh";
+
+          $this->userService->updatePassword($request);
+
+          $result = $this->userRepository->findById($user->id);
+
+          $this->assertTrue(password_verify($request->repeate_new_password, $result->password));
      }
 }

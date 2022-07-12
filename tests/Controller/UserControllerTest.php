@@ -163,4 +163,33 @@ class UserControllerTest extends TestCase
           $this->expectOutputRegex("[Location: /]");
           $this->expectOutputRegex("[X-IQBAL-SESSION: ]");
      }
+
+     public function testUserProfile()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = "qwerty";
+          $user->email = "budi@gmail.com";
+          $this->userRepository->save($user);
+
+          $session = new Session();
+          $session->id = uniqid();
+          $session->userId = "Budi";
+          $this->sessionRepository->save($session);
+
+          $paylod = [
+               "session_id" => $session->id,
+               "username" => $session->userId,
+               "role" => "user",
+          ];
+
+          $jwt = JWT::encode($paylod, SessionService::$SECRET_KEY, "HS256");
+          $_COOKIE[SessionService::$COOKIE_NAME] = $jwt;
+
+          $this->userController->profile();
+
+          $this->expectOutputRegex("[User Profile]");
+          $this->expectOutputRegex("[Ubah Password]");
+     }
 }

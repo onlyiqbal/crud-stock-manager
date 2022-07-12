@@ -70,4 +70,11 @@ class UserRepository
                $statement->closeCursor();
           }
      }
+
+     public function updatePassword(User $user): User
+     {
+          $statement = $this->connection->prepare("UPDATE users SET password = ? WHERE id = ?");
+          $statement->execute([$user->password, $user->id]);
+          return $user;
+     }
 }
