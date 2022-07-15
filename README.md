@@ -6,9 +6,9 @@
 - PHP Native
 - Database MySQL
 - Server : PHP Development Server
-## Cara menggunakan aplikasi :
+## Panduan Instalasi :
 - Clone repository ini atau download file zip.
-- Buat dua database, database "db_student" dan "db_student_test" (unit test).
+- Buat dua database, database "db_stock" dan "db_stock_test" (unit test).
 - Import file sql script yang terdapat didalam projectnaya sesuai dengan nama databasenya.
 - Buka folder projectnya menggunkan text editor, lalu buka terminal bawaan dari text editornya.
 - Masuk ke folder public dan aktifkan php development server, ketik "php -S localhost:8080".
