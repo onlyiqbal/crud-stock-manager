@@ -8,7 +8,7 @@
 
      entity "sessions" as sessions {
           * **id** : varchar
-          **user_id** : varchar
+          user_id : varchar
      }
 
      entity "products" as products {

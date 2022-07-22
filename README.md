@@ -1,5 +1,5 @@
-# Aplikasi Sistem Informasi Mahasiswa
-## Aplikasi CRUD Sistem Informasi Mahasiswa sederhana menggunakan PHP Native
+# Aplikasi Stock Manager
+## Aplikasi CRUD Stock Manager sederhana menggunakan PHP Native
 ## Spesifikasi Aplikasi :
 - Menggunakan konsep MVC
 - Menggunakan Repository Pattern
