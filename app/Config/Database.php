@@ -33,7 +33,7 @@ class Database
           self::$pdo->commit();
      }
 
-     public static function rollBackTrasaction()
+     public static function rollBackTransaction()
      {
           self::$pdo->rollBack();
      }

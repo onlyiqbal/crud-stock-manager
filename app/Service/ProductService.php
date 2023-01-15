@@ -44,7 +44,7 @@ class ProductService
 
                return $response;
           } catch (Exception $exception) {
-               Database::rollBackTrasaction();
+               Database::rollBackTransaction();
                throw $exception;
           }
      }

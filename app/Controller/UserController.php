@@ -105,7 +105,7 @@ class UserController
           $request = new UserProfileUpdateRequest();
           $request->old_password = $_POST['old'];
           $request->new_password = $_POST['new'];
-          $request->repeate_new_password = $_POST['repeat_new'];
+          $request->repeat_new_password = $_POST['repeat_new'];
 
           $session = $this->sessionService->current();
           $user = $this->userRepository->findById($session->userId);

@@ -65,7 +65,7 @@ class UserService
 
                return $response;
           } catch (ValidationException $exception) {
-               Database::rollBackTrasaction();
+               Database::rollBackTransaction();
                throw $exception;
           }
      }
@@ -115,11 +115,11 @@ class UserService
                     throw new ValidationException("Password lama salah");
                }
 
-               if ($request->new_password != $request->repeate_new_password) {
+               if ($request->new_password != $request->repeat_new_password) {
                     throw new ValidationException("Password baru salah");
                }
 
-               $user->password = password_hash($request->repeate_new_password, PASSWORD_BCRYPT);
+               $user->password = password_hash($request->repeat_new_password, PASSWORD_BCRYPT);
                $this->userRepository->updatePassword($user);
 
                Database::commitTransaction();
@@ -128,14 +128,14 @@ class UserService
                $response->user = $user;
                return $response;
           } catch (ValidationException $exception) {
-               Database::rollBackTrasaction();
+               Database::rollBackTransaction();
                throw $exception;
           }
      }
 
      private function validateUserUpdateRequest(UserProfileUpdateRequest $request)
      {
-          if (($request->old_password == "" || null) || ($request->new_password == "" || null) || ($request->repeate_new_password == "" || null)) {
+          if (($request->old_password == "" || null) || ($request->new_password == "" || null) || ($request->repeat_new_password == "" || null)) {
                throw new ValidationException("Form tidak boleh kosong");
           }
      }

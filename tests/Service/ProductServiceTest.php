@@ -21,7 +21,7 @@ class ProductServiceTest extends TestCase
           $this->productRepository->deleteAll();
      }
 
-     public function testshowAllProductSuccess()
+     public function testShowAllProductSuccess()
      {
           $product = new Product();
           $product->id = "1";
@@ -49,7 +49,7 @@ class ProductServiceTest extends TestCase
           $this->assertEquals($request->quantity, $response->products->quantity);
      }
 
-     public function testAddSuccessFaild()
+     public function testAddSuccessFailed()
      {
           $this->expectException(ValidationException::class);
 

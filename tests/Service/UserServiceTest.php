@@ -167,23 +167,23 @@ class UserServiceTest extends TestCase
           $session->id = uniqid();
           $session->userId = "budi";
           $this->sessionsRepository->save($session);
-          $paylod = [
+          $payload = [
                "session_id" => $session->id,
                "username" => $session->userId,
                "role" => "user"
           ];
-          $jwt = JWT::encode($paylod, SessionService::$SECRET_KEY, "HS256");
+          $jwt = JWT::encode($payload, SessionService::$SECRET_KEY, "HS256");
           $_COOKIE[SessionService::$COOKIE_NAME] = $jwt;
 
           $request = new UserProfileUpdateRequest();
           $request->old_password = "qwerty";
           $request->new_password = "asdfgh";
-          $request->repeate_new_password = "asdfgh";
+          $request->repeat_new_password = "asdfgh";
 
           $this->userService->updatePassword($request);
 
           $result = $this->userRepository->findById($user->id);
 
-          $this->assertTrue(password_verify($request->repeate_new_password, $result->password));
+          $this->assertTrue(password_verify($request->repeat_new_password, $result->password));
      }
 }
