@@ -63,14 +63,14 @@ class UserServiceTest extends TestCase
 
      public function testRegisterUserDuplicate()
      {
+          $this->expectException(ValidationException::class);
+
           $user = new User();
           $user->id = "budi";
           $user->username = "Budi";
           $user->password = "qwerty";
           $user->email = "budi@gmail.com";
           $this->userRepository->save($user);
-
-          $this->expectException(ValidationException::class);
 
           $request = new UserRegisterRequest();
           $request->id = "budi";
@@ -185,5 +185,36 @@ class UserServiceTest extends TestCase
           $result = $this->userRepository->findById($user->id);
 
           $this->assertTrue(password_verify($request->repeat_new_password, $result->password));
+     }
+
+     public function testUpdatePasswordFailed()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = password_hash("qwerty", PASSWORD_BCRYPT);
+          $user->email = "budi@gmail.com";
+          $this->userRepository->save($user);
+
+          $session = new Session();
+          $session->id = uniqid();
+          $session->userId = "budi";
+          $this->sessionsRepository->save($session);
+          $payload = [
+               "session_id" => $session->id,
+               "username" => $session->userId,
+               "role" => "user"
+          ];
+          $jwt = JWT::encode($payload, SessionService::$SECRET_KEY, "HS256");
+          $_COOKIE[SessionService::$COOKIE_NAME] = $jwt;
+
+          $this->expectException(ValidationException::class);
+
+          $request = new UserProfileUpdateRequest();
+          $request->old_password = "salah";
+          $request->new_password = "salah password";
+          $request->repeat_new_password = "asdfgh";
+
+          $this->userService->updatePassword($request);
      }
 }

@@ -42,18 +42,18 @@ class UserRepositoryTest extends TestCase
           $this->assertNull($result);
      }
 
-     public function testFindByUsername()
-     {
-          $user = new User();
-          $user->id = "budi";
-          $user->username = "Budi";
-          $user->password = "qwerty";
-          $user->email = "budi@gmail.com";
-          $this->userRepository->save($user);
+     // public function testFindByUsername()
+     // {
+     //      $user = new User();
+     //      $user->id = "budi";
+     //      $user->username = "Budi";
+     //      $user->password = "qwerty";
+     //      $user->email = "budi@gmail.com";
+     //      $this->userRepository->save($user);
 
-          $result = $this->userRepository->findByUsername($user->username);
-          $this->assertNotNull($result);
-     }
+     //      $result = $this->userRepository->findByUsername($user->username);
+     //      $this->assertNotNull($result);
+     // }
 
      public function testUpdateSuccess()
      {

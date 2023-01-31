@@ -80,7 +80,7 @@ class UserService
      public function login(UserLoginRequest $request): UserLoginResponse
      {
           $this->validateUserLoginRequest($request);
-          $user = $this->userRepository->findByUsername($request->username);
+          $user = $this->userRepository->findById($request->username);
           if ($user == null) {
                throw new ValidationException("Username atau password salah");
           }
@@ -90,8 +90,6 @@ class UserService
                $response->user = $user;
 
                return $response;
-          } else {
-               throw new ValidationException("Username atau password salah");
           }
      }
 
@@ -113,9 +111,7 @@ class UserService
 
                if ($request->old_password != password_verify($request->old_password, $user->password)) {
                     throw new ValidationException("Password lama salah");
-               }
-
-               if ($request->new_password != $request->repeat_new_password) {
+               } else if ($request->new_password != $request->repeat_new_password) {
                     throw new ValidationException("Password baru salah");
                }
 
