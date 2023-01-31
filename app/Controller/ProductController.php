@@ -57,7 +57,7 @@ class ProductController
           }
      }
 
-     public function edit(string $id)
+     public function edit(int $id)
      {
           $product = $this->productRepository->findById($id);
           $session = $this->sessionService->current();
@@ -66,6 +66,11 @@ class ProductController
                "name" => $session->userId,
                "product" => $product,
           ]);
+     }
+
+     public function postEdit(int $id)
+     {
+          $product = $this->productRepository->findById($id);
      }
 
      public function delete(string $id)

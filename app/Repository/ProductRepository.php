@@ -29,7 +29,7 @@ class ProductRepository
           return $statement;
      }
 
-     public function findById(string $id): ?Product
+     public function findById(int $id): ?Product
      {
           $statement = $this->connection->prepare("SELECT id, name, quantity, price, update_at FROM products WHERE id = ?");
           $statement->execute([$id]);
@@ -49,6 +49,14 @@ class ProductRepository
           } finally {
                $statement->closeCursor();
           }
+     }
+
+     public function update(Product $product): Product
+     {
+          $statement = $this->connection->prepare("UPDATE products SET name = ?, quantity = ?, price = ? WHERE id = ?");
+          $statement->execute([$product->name, $product->quantity, $product->price, $product->id]);
+
+          return $product;
      }
 
      public function deleteAll(): void

@@ -17,7 +17,6 @@
 
                <!-- Form untuk proses update -->
                <form method="POST">
-
                     <div class="form-group">
                          <label for="nama_barang">ID Barang</label>
                          <input type="text" class="form-control" name="product_id" disabled value="<?= $model['product']->id ?>">
@@ -41,9 +40,7 @@
 
                     <input type="submit" class="btn btn-primary" value="Update">
                     <a href="/products" class="btn btn-secondary">Cancel</a>
-
                </form>
-
           </div>
      </div>
 </div>

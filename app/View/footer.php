@@ -5,7 +5,7 @@
                     <small>
                          <?php
                          $tanggal = new DateTime('now');
-                         echo "Copyright © " . $tanggal->format("Y") . " Duniailkom";
+                         echo "Copyright © " . $tanggal->format("Y") . " Iqbal";
                          ?>
                     </small>
                </div>
