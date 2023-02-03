@@ -43,8 +43,7 @@ class UserService
 
           if ($password != $ulangiPassword) {
                throw new ValidationException("Password harus sama");
-          }
-          if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+          } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
                throw new ValidationException("Format email salah");
           }
 
@@ -106,12 +105,13 @@ class UserService
 
           try {
                Database::beginTransaction();
-               $session = $this->sessionService->current();
-               $user = $this->userRepository->findById($session->userId);
+               $session  = $this->sessionService->current();
+               $user     = $this->userRepository->findById($session->userId);
 
                if ($request->old_password != password_verify($request->old_password, $user->password)) {
                     throw new ValidationException("Password lama salah");
-               } else if ($request->new_password != $request->repeat_new_password) {
+               }
+               if ($request->new_password != $request->repeat_new_password) {
                     throw new ValidationException("Password baru salah");
                }
 

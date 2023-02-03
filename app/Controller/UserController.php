@@ -120,7 +120,8 @@ class UserController
                View::render("User/profile", [
                     "title" => "User Profile",
                     "name" => $session->userId,
-                    "user" => $user
+                    "user" => $user,
+                    "error" => $exception->getMessage()
                ]);
           }
      }
