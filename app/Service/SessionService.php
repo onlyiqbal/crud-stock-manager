@@ -13,14 +13,12 @@ use Iqbal\StockManager\Repository\UserRepository;
 class SessionService
 {
      private SessionRepository $sessionRepository;
-     private UserRepository $userRepository;
      public static string $SECRET_KEY = "jahfdb1264763bfjcbchdb4637ncbcj";
      public static string $COOKIE_NAME = "X-IQBAL-SESSION";
 
      public function __construct(SessionRepository $sessionRepository, UserRepository $userRepository)
      {
           $this->sessionRepository = $sessionRepository;
-          $this->userRepository = $userRepository;
      }
 
      public function create(string $userId): Session
