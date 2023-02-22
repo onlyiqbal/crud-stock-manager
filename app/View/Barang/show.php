@@ -26,8 +26,7 @@
                               echo "<th>$product[id]</th>";
                               echo "<td>$product[name]</td>";
                               echo "<td>$product[quantity]</td>";
-                              echo "<td>" . number_format($product['price'], 0, ',', '.') .
-                                   "</td>";
+                              echo "<td>" . number_format($product['price'], 0, ',', '.') . "</td>";
                               echo "<td>$product[update_at]</td>";
                               echo "<td>";
                               echo "<a href='/products/edit/$product[id]' class='btn btn-info'>Edit</a>";
