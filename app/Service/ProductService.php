@@ -61,6 +61,31 @@ class ProductService
      public function updateProduct(ProductUpdateRequest $request): ProductUpdateResponse
      {
           $this->validateProductUpdate($request);
+
+          try {
+               Database::beginTransaction();
+
+               $product = $this->productRepository->findById($request->id);
+               if ($product == null) {
+                    throw new ValidationException("Produk tidak ada");
+               }
+
+               $product->id = $request->id;
+               $product->name = $request->name;
+               $product->quantity = $request->quantity;
+               $product->price = $request->price;
+               $this->productRepository->update($product);
+
+               Database::commitTransaction();
+
+               $response = new ProductUpdateResponse();
+               $response->product = $product;
+
+               return $response;
+          } catch (Exception $exception) {
+               Database::rollBackTransaction();
+               throw $exception;
+          }
      }
 
      private function validateProductUpdate(ProductUpdateRequest $request)

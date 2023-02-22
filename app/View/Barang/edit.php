@@ -19,13 +19,13 @@
                <form method="POST">
                     <div class="form-group">
                          <label for="nama_barang">ID Barang</label>
-                         <input type="text" class="form-control" name="product_id" disabled value="<?= $model['product']->id ?>">
+                         <input type="text" class="form-control" name="product_id" readonly value="<?= $model['product']->id ?>">
                          <small class="d-block">*ID Barang tidak bisa diubah</small>
                     </div>
 
                     <div class="form-group">
                          <label for="nama_barang">Nama Barang</label>
-                         <input type="text" class="form-control" name="product_name" value="<?= $model['product']->name ?? $_POST['product_name'] ?>">
+                         <input type="text" class="form-control" name="name" value="<?= $model['product']->name ?? $_POST['product_name'] ?>">
                     </div>
 
                     <div class="form-group">

@@ -59,14 +59,14 @@ class ProductRepository
           return $product;
      }
 
-     public function deleteAll(): void
-     {
-          $this->connection->exec("DELETE FROM products");
-     }
-
      public function deleteById(string $id): void
      {
           $statement = $this->connection->prepare("DELETE FROM products WHERE id = ?");
           $statement->execute([$id]);
+     }
+
+     public function deleteAll(): void
+     {
+          $this->connection->exec("DELETE FROM products");
      }
 }

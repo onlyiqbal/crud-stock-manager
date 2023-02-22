@@ -130,6 +130,46 @@ class ProductControllerTest extends TestCase
           $this->expectOutputRegex("[Edit Barang]");
      }
 
+     public function testPostEditSuccess()
+     {
+          $user = new User();
+          $user->id = "budi";
+          $user->username = "Budi";
+          $user->password = "qwerty";
+          $user->email = "budi@gmail.com";
+          $this->userRepository->save($user);
+
+          $session = new Session();
+          $session->id = uniqid();
+          $session->userId = "budi";
+          $this->sessionRepository->save($session);
+
+          $payload = [
+               "session_id" => $session->id,
+               "username" => $session->userId,
+               "role" => "user"
+          ];
+          $jwt = JWT::encode($payload, SessionService::$SECRET_KEY, "HS256");
+          $_COOKIE[SessionService::$COOKIE_NAME] = $jwt;
+
+          $product = new Product();
+          $product->name = "HP";
+          $product->quantity = 5;
+          $product->price = 150000;
+          $this->productRepository->save($product);
+
+          $_POST['product_id'] = 1;
+          $_POST['name'] = "sepatu";
+          $_POST['quantity'] = 5;
+          $_POST['price'] = 150000;
+          $this->productController->postEdit();
+
+          $this->expectOutputRegex("[Location: /products]");
+
+          $result = $this->productRepository->findById(1);
+          $this->assertEquals("sepatu", $result->name);
+     }
+
      public function testDeleteSuccess()
      {
           $product = new Product();

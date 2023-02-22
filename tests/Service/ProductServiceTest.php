@@ -6,6 +6,7 @@ use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Domain\Product;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\ProductAddRequest;
+use Iqbal\StockManager\Model\ProductUpdateRequest;
 use Iqbal\StockManager\Repository\ProductRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -41,7 +42,7 @@ class ProductServiceTest extends TestCase
           $request = new ProductAddRequest();
           $request->name = "Laptop";
           $request->quantity = 5;
-          $request->price = 5000000;
+          $request->price = 500000;
           $response = $this->productService->add($request);
 
           $this->assertEquals($request->name, $response->products->name);
@@ -49,16 +50,57 @@ class ProductServiceTest extends TestCase
           $this->assertEquals($request->quantity, $response->products->quantity);
      }
 
-     public function testAddSuccessFailed()
+     public function testAddFailed()
      {
           $this->expectException(ValidationException::class);
 
           $request = new ProductAddRequest();
           $request->name = "";
-          $request->quantity = "";
-          $request->price = "";
+          $request->quantity = null;
+          $request->price = null;
 
           $this->productService->add($request);
+     }
+
+     public function testUpdateSuccess()
+     {
+          $product = new Product();
+          $product->name = "celana";
+          $product->quantity = 10;
+          $product->price = 50000;
+          $this->productRepository->save($product);
+
+          $request = new ProductUpdateRequest();
+          $request->id = 1;
+          $request->name = "hp";
+          $request->quantity = 5;
+          $request->price = 500000;
+          $this->productService->updateProduct($request);
+
+          $result = $this->productRepository->findById(1);
+
+          $this->assertEquals($request->id, $result->id);
+          $this->assertEquals($request->name, $result->name);
+          $this->assertEquals($request->quantity, $result->quantity);
+          $this->assertEquals($request->price, $result->price);
+     }
+
+     public function testUpdateFailed()
+     {
+          $product = new Product();
+          $product->name = "celana";
+          $product->quantity = 10;
+          $product->price = 50000;
+          $this->productRepository->save($product);
+
+          $this->expectException(ValidationException::class);
+
+          $request = new ProductUpdateRequest();
+          $request->id = 1;
+          $request->name = "";
+          $request->quantity = "";
+          $request->price = "";
+          $this->productService->updateProduct($request);
      }
 
      public function testDeleteByIdSuccess()

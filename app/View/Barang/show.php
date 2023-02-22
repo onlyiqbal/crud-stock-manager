@@ -28,8 +28,7 @@
                               echo "<td>$product[quantity]</td>";
                               echo "<td>" . number_format($product['price'], 0, ',', '.') .
                                    "</td>";
-                              $tanggal = new DateTime();
-                              echo "<td>" . $tanggal->format("d-m-Y H:i") . "</td>";
+                              echo "<td>$product[update_at]</td>";
                               echo "<td>";
                               echo "<a href='/products/edit/$product[id]' class='btn btn-info'>Edit</a>";
                               echo "<a href='/products/delete/$product[id]' class='btn btn-danger'>Hapus</a>";

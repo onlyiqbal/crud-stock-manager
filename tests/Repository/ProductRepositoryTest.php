@@ -5,6 +5,7 @@ namespace Iqbal\StockManager\Repository;
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Domain\Product;
 use Iqbal\StockManager\Model\ProductAddRequest;
+use Iqbal\StockManager\Model\ProductUpdateRequest;
 use PHPUnit\Framework\TestCase;
 
 class ProductRepositoryTest extends TestCase
@@ -43,15 +44,23 @@ class ProductRepositoryTest extends TestCase
      public function testUpdateSuccess()
      {
           $product = new Product();
-          $product->name = "sepatu";
-          $product->quantity = 5;
-          $product->price = 100000;
-          $this->productRepository->save($product);
-
           $product->name = "celana";
           $product->quantity = 10;
           $product->price = 50000;
+          $this->productRepository->save($product);
+
+          $product->id = 1;
+          $product->name = "hp";
+          $product->quantity = 5;
+          $product->price = 150000;
           $this->productRepository->update($product);
+
+          $product_result = $this->productRepository->findById(1);
+
+          $this->assertEquals($product_result->id, $product->id);
+          $this->assertEquals($product_result->name, $product->name);
+          $this->assertEquals($product_result->quantity, $product->quantity);
+          $this->assertEquals($product_result->price, $product->price);
      }
 
      public function testDeleteByIdSuccess()

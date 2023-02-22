@@ -69,13 +69,26 @@ class ProductController
           ]);
      }
 
-     public function postEdit(int $id)
+     public function postEdit()
      {
-          $product = new ProductUpdateRequest();
-          $product->id = $id;
-          $product->name = $_POST['product_name'];
-          $product->quantity = $_POST['quantity'];
-          $product->price = $_POST['price'];
+          $request = new ProductUpdateRequest();
+          $request->id = $_POST['product_id'];
+          $request->name = $_POST['name'];
+          $request->quantity = $_POST['quantity'];
+          $request->price = $_POST['price'];
+
+          $current = $this->sessionService->current();
+
+          try {
+               $this->productService->updateProduct($request);
+               View::redirect("/products");
+          } catch (ValidationException $exception) {
+               View::renderProduct("Barang/show", [
+                    "title" => "Dashboard",
+                    "name" => $current->userId,
+                    "products" => $this->productService->showAllProducts(),
+               ]);
+          }
      }
 
      public function delete(string $id)
