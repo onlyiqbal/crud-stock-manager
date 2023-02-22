@@ -8,6 +8,8 @@ use Iqbal\StockManager\Domain\Product;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\ProductAddRequest;
 use Iqbal\StockManager\Model\ProductAddResponse;
+use Iqbal\StockManager\Model\ProductUpdateRequest;
+use Iqbal\StockManager\Model\ProductUpdateResponse;
 use Iqbal\StockManager\Repository\ProductRepository;
 use PDOStatement;
 
@@ -53,6 +55,18 @@ class ProductService
      {
           if (($request->name == "" || null) || ($request->quantity == "" || null) || ($request->price == "" || null)) {
                throw new ValidationException("Form tidak boleh kosong");
+          }
+     }
+
+     public function updateProduct(ProductUpdateRequest $request): ProductUpdateResponse
+     {
+          $this->validateProductUpdate($request);
+     }
+
+     private function validateProductUpdate(ProductUpdateRequest $request)
+     {
+          if ($request->name == null || $request->quantity == null || $request->price == null) {
+               throw new ValidationException("Form harus diisi");
           }
      }
 

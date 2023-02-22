@@ -53,7 +53,7 @@ class ProductRepository
 
      public function update(Product $product): Product
      {
-          $statement = $this->connection->prepare("UPDATE products SET name = ?, quantity = ?, price = ? WHERE id = ?");
+          $statement = $this->connection->prepare("UPDATE products SET name = ?, quantity = ?, price = ?, update_at = current_timestamp() WHERE id = ?");
           $statement->execute([$product->name, $product->quantity, $product->price, $product->id]);
 
           return $product;

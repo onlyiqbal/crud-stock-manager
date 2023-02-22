@@ -6,6 +6,7 @@ use Iqbal\StockManager\App\View;
 use Iqbal\StockManager\Config\Database;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Model\ProductAddRequest;
+use Iqbal\StockManager\Model\ProductUpdateRequest;
 use Iqbal\StockManager\Repository\ProductRepository;
 use Iqbal\StockManager\Repository\SessionRepository;
 use Iqbal\StockManager\Repository\UserRepository;
@@ -70,7 +71,11 @@ class ProductController
 
      public function postEdit(int $id)
      {
-          $product = $this->productRepository->findById($id);
+          $product = new ProductUpdateRequest();
+          $product->id = $id;
+          $product->name = $_POST['product_name'];
+          $product->quantity = $_POST['quantity'];
+          $product->price = $_POST['price'];
      }
 
      public function delete(string $id)
