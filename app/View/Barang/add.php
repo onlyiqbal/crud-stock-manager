@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                          <label for="harga_barang">Harga</label>
-                         <input type="text" class="form-control" name="price" value="<?= $model['price'] ?? "" ?>">
+                         <input type="text" class="form-control" name="price" value="<?= $_POST['price'] ?? "" ?>">
                     </div>
                     <input type="submit" class="btn btn-primary" value="Tambah">
                </form>

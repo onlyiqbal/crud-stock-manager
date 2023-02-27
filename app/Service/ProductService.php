@@ -90,7 +90,7 @@ class ProductService
 
      private function validateProductUpdate(ProductUpdateRequest $request)
      {
-          if ($request->name == null || $request->quantity == null || $request->price == null) {
+          if (($request->name == null || "") || ($request->quantity == null || "") || ($request->price == null || "")) {
                throw new ValidationException("Form harus diisi");
           }
      }

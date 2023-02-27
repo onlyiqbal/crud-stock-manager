@@ -83,10 +83,10 @@ class ProductController
                $this->productService->updateProduct($request);
                View::redirect("/products");
           } catch (ValidationException $exception) {
-               View::renderProduct("Barang/show", [
-                    "title" => "Dashboard",
+               View::renderProduct("Barang/edit", [
+                    "title" => "Edit Product",
                     "name" => $current->userId,
-                    "products" => $this->productService->showAllProducts(),
+                    "error" => $exception->getMessage(),
                ]);
           }
      }
