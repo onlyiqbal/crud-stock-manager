@@ -5,18 +5,16 @@ namespace Iqbal\StockManager\Service;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Iqbal\StockManager\Domain\Session;
-use Iqbal\StockManager\Domain\User;
 use Iqbal\StockManager\Exception\ValidationException;
 use Iqbal\StockManager\Repository\SessionRepository;
-use Iqbal\StockManager\Repository\UserRepository;
 
 class SessionService
 {
      private SessionRepository $sessionRepository;
-     public static string $SECRET_KEY = "jahfdb1264763bfjcbchdb4637ncbcj";
-     public static string $COOKIE_NAME = "X-IQBAL-SESSION";
+     private static string $SECRET_KEY = "jahfdb1264763bfjcbchdb4637ncbcj";
+     private static string $COOKIE_NAME = "X-IQBAL-SESSION";
 
-     public function __construct(SessionRepository $sessionRepository, UserRepository $userRepository)
+     public function __construct(SessionRepository $sessionRepository)
      {
           $this->sessionRepository = $sessionRepository;
      }
