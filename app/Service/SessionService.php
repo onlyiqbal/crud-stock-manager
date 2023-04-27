@@ -11,8 +11,8 @@ use Iqbal\StockManager\Repository\SessionRepository;
 class SessionService
 {
      private SessionRepository $sessionRepository;
-     private static string $SECRET_KEY = "jahfdb1264763bfjcbchdb4637ncbcj";
-     private static string $COOKIE_NAME = "X-IQBAL-SESSION";
+     public static string $SECRET_KEY = "jahfdb1264763bfjcbchdb4637ncbcj";
+     public static string $COOKIE_NAME = "X-IQBAL-SESSION";
 
      public function __construct(SessionRepository $sessionRepository)
      {
