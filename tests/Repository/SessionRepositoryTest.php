@@ -20,7 +20,6 @@ class SessionRepositoryTest extends TestCase
           $this->userRepository = new UserRepository(Database::getConnection());
           $this->userRepository->deleteAll();
 
-
           $user = new User();
           $user->id = "budi";
           $user->username = "Budi";
