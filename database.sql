@@ -23,13 +23,3 @@ quantity int not null,
 price decimal not null,
 update_at timestamp
 );
-
-desc products;
-
-drop table products;
-
-select * from users;
-
-select * from sessions;
-
-select * from products;
